@@ -47,7 +47,7 @@ function App() {
                   return (
                     <div style={{ margin: margin }} className="relative">
                       <img
-                        className="rounded object-contain drop-shadow-lg hover:drop-shadow-2xl"
+                        className="rounded object-contain drop-shadow-lg"
                         style={{ minWidth: size + "vw", minHeight: size + "vw" }}
                         src={obj.images[1].url}
                         key={idx + obj.images[0].url}
@@ -67,7 +67,7 @@ function App() {
                   return (
                     <div style={{ margin: margin }} className="block">
                       <img
-                        className="rounded object-contain drop-shadow-lg hover:drop-shadow-2xl"
+                        className="rounded object-contain drop-shadow-lg"
                         style={{ minWidth: size + "vw", minHeight: size + "vw" }}
                         src={obj.images[1].url}
                         key={idx + obj.images[0].url}
