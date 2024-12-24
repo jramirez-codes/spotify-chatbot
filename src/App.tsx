@@ -65,7 +65,7 @@ function App() {
                 const margin = Math.floor(Math.random() * (20 - 3 + 1)) + 3;
                 if (idx <= spotifyUserData.topArtist.items.length / 2) {
                   return (
-                    <div style={{ margin: margin }} className="block">
+                    <div style={{ margin: margin }} className="relative">
                       <img
                         className="rounded object-contain drop-shadow-lg"
                         style={{ minWidth: size + "vw", minHeight: size + "vw" }}
