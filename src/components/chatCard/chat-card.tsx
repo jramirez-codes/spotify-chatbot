@@ -39,7 +39,7 @@ export function ChatCard(props: { spotifyData: any }) {
 
   return (
     <div className="rounded-lg backdrop-blur-sm w-[100vw] md:w-[70vw] lg:w-[60vw] h-[60vh] p-10 mt-[20vh] grid">
-      <Card className="p-5 justify-self-stretch">
+      <Card className="p-5 justify-self-stretch overflow-auto">
         <h1 className="font-serif text-xl"></h1>
         <h1 className="font-serif text-lg">
           Hello I am the <u>Criti Koala</u>,
@@ -56,6 +56,7 @@ export function ChatCard(props: { spotifyData: any }) {
                   </Button>
                 );
               })}
+              <span>Click an genre to learn my thoughts!</span>
             </h1>
           </motion.div>
         </AnimatePresence>
