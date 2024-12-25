@@ -69,9 +69,10 @@ def handle_post():
 
     # Example prompt
     messages = request.json['messages']
+    maxLength = request.json['max_length']
 
     # Generate response
-    response = generate_response(model, tokenizer, device, messages, 60)
+    response = generate_response(model, tokenizer, device, messages, int(maxLength))
     return jsonify({"received": response}), 200
 
 if __name__ == '__main__':
