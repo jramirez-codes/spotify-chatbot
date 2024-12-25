@@ -1,6 +1,8 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import os
 
+# transformers
+# torch
 def save_model(model_name: str, save_directory: str):
     """
     Download and save a pre-trained model and its tokenizer locally.

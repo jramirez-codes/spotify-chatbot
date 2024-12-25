@@ -1,6 +1,8 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
-import json
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
 
 def load_model(model_path: str, device: str = None):
     """
@@ -25,7 +27,7 @@ def load_model(model_path: str, device: str = None):
     print("Model loaded successfully.")
     return model, tokenizer, device
 
-def generate_response(model, tokenizer, device, prompt: str, max_length: int = 50):
+def generate_response(model, tokenizer, device, messages, max_length: int = 50):
     """
     Generate a response from the model based on a given prompt.
 
@@ -39,10 +41,6 @@ def generate_response(model, tokenizer, device, prompt: str, max_length: int = 5
     Returns:
         str: The generated response text.
     """
-    messages = [
-        {"role": "system", "content": "Given a genre, crtitize each one and why they might be bad for the community"},
-        {"role": "user", "content": prompt}
-    ]
     text = tokenizer.apply_chat_template(
         messages,
         tokenize=False,
@@ -63,23 +61,18 @@ def generate_response(model, tokenizer, device, prompt: str, max_length: int = 5
 
     return response
 
-def lambda_handler(event, context):
-    # Replace 'local_model_path' with the path to your downloaded model
+@app.route('/', methods=['POST'])
+def handle_post():
+    # Loading Local Model
     local_model_path = "./saved_model"
     model, tokenizer, device = load_model(local_model_path)
 
     # Example prompt
-    user_prompt = event['body']
+    messages = request.json['messages']
 
     # Generate response
-    response = generate_response(model, tokenizer, device, user_prompt, 60)
-    print(response)
-    return {
-        'statusCode': 200,
-        'headers': {
-            'Access-Control-Allow-Headers': '*',
-            'Access-Control-Allow-Origin': '*'
-        },
-        # 'body': json.dumps({"res": "OK"})
-        'body': json.dumps({"res": response.strip()})
-    }
+    response = generate_response(model, tokenizer, device, messages, 60)
+    return jsonify({"received": request.json}), 200
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080)
