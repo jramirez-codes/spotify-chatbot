@@ -61,19 +61,30 @@ def generate_response(model, tokenizer, device, messages, max_length: int = 50):
 
     return response
 
-@app.route('/', methods=['POST'])
-def handle_post():
-    # Loading Local Model
-    local_model_path = "./saved_model"
-    model, tokenizer, device = load_model(local_model_path)
+@app.route('/', methods=['OPTIONS', 'POST'])
+def handle_llm_request():
+    if request.method == 'OPTIONS':
+        # Preflight request
+        response = jsonify({"message": "CORS preflight"})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Headers", "*")
+        response.headers.add("Access-Control-Allow-Methods", "POST,OPTIONS")
+        return response
+    elif request.method == 'POST':
+        # Loading Local Model
+        local_model_path = "./saved_model"
+        model, tokenizer, device = load_model(local_model_path)
 
-    # Example prompt
-    messages = request.json['messages']
-    maxLength = request.json['max_length']
+        # Example prompt
+        messages = request.json['messages']
+        maxLength = request.json['max_length']
 
-    # Generate response
-    response = generate_response(model, tokenizer, device, messages, int(maxLength))
-    return jsonify({"received": response}), 200
+        # Generate response
+        response = generate_response(model, tokenizer, device, messages, int(maxLength))
+        res = jsonify({"received": response})
+        res.headers.add("Access-Control-Allow-Origin", "*")
+        res.headers.add("Access-Control-Allow-Headers", "*")
+        return res, 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)

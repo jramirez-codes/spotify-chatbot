@@ -44,13 +44,10 @@ export function ChatCard(props: { spotifyData: any }) {
     if (!isQueryingLlm) {
       setIsQueryLlm((_) => true);
       const llmEndpoint = import.meta.env.VITE_LLM_API;
-      alert("TEST EVENT");
       const options = {
         method: "POST",
-        headers: new Headers({
-          "Access-Control-Allow-Origin": "*",
-          "content-type": "application/json",
-        }),
+        // mode: "cors",
+        headers: new Headers({ "content-type": "application/json", "Access-Control-Allow-Origin": "*" }),
         body: JSON.stringify({
           messages: [
             {
@@ -65,9 +62,15 @@ export function ChatCard(props: { spotifyData: any }) {
           max_length: 60,
         }),
       };
-      const res = await fetch(llmEndpoint, options);
-      if (res.ok) {
-        alert(JSON.stringify(await res.json()));
+
+      try {
+        const response = await fetch(llmEndpoint, options);
+        const data = await response.json();
+        if (response.ok) {
+          alert(JSON.stringify(data));
+        }
+      } catch (error) {
+        console.error(error);
       }
 
       setIsQueryLlm((_) => false);
