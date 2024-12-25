@@ -6,12 +6,15 @@ WORKDIR /app
 
 # Copy the current directory contents into the container
 COPY app.py /app
-COPY saved_model /app
 COPY requirements.txt /app
+COPY save_model.py /app
 
 # Install the Python dependencies
 RUN pip install -r requirements.txt
 # RUN pip install flask
+
+# Download Model
+RUN python save_model.py
 
 # Expose port 8080
 EXPOSE 8080

@@ -72,7 +72,7 @@ def handle_post():
 
     # Generate response
     response = generate_response(model, tokenizer, device, messages, 60)
-    return jsonify({"received": request.json}), 200
+    return jsonify({"received": response}), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
