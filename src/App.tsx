@@ -35,6 +35,8 @@ function App() {
     }
   }, []);
 
+  console.log(spotifyUserData);
+
   return (
     <>
       <div className="fixed top-0 left-0 w-full flex justify-center items-center">
