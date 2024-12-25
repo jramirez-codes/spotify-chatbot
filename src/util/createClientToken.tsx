@@ -53,6 +53,7 @@ export function createClientToken() {
 
     (token as SpotifyToken).expires_in = (parseInt((token as SpotifyToken).expires_in) + Date.now()).toString();
     window.localStorage.setItem(tokenKey, CryptoJS.AES.encrypt(JSON.stringify(token), import.meta.env.VITE_SECRET_PASS).toString());
+    return token;
   }
 
   routeToSpotifyAuth();
