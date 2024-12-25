@@ -3,6 +3,7 @@ import { Card } from "../ui/card";
 import { motion } from "motion/react";
 import React from "react";
 import { Button } from "../ui/button";
+import { handler } from "tailwindcss-animate";
 
 function Typewriter({ text, speed }) {
   const [displayText, setDisplayText] = React.useState("");
@@ -24,6 +25,8 @@ function Typewriter({ text, speed }) {
 }
 
 export function ChatCard(props: { spotifyData: any }) {
+  const [isQueryingLlm, setIsQueryLlm] = React.useState(false);
+
   const musicGenres = React.useMemo(() => {
     if (props.spotifyData) {
       const musicSet = new Set();
@@ -36,6 +39,40 @@ export function ChatCard(props: { spotifyData: any }) {
     }
     return [];
   }, [props.spotifyData]);
+
+  async function handleQueryLlm(genre: string) {
+    if (!isQueryingLlm) {
+      setIsQueryLlm((_) => true);
+      const llmEndpoint = import.meta.env.VITE_LLM_API;
+      alert("TEST EVENT");
+      const options = {
+        method: "POST",
+        headers: new Headers({
+          "Access-Control-Allow-Origin": "*",
+          "content-type": "application/json",
+        }),
+        body: JSON.stringify({
+          messages: [
+            {
+              role: "system",
+              content: "Given a genre, crtitize each one and why they might be bad for the community",
+            },
+            {
+              role: "user",
+              content: genre,
+            },
+          ],
+          max_length: 60,
+        }),
+      };
+      const res = await fetch(llmEndpoint, options);
+      if (res.ok) {
+        alert(JSON.stringify(await res.json()));
+      }
+
+      setIsQueryLlm((_) => false);
+    }
+  }
 
   return (
     <div className="rounded-lg backdrop-blur-sm w-[100vw] md:w-[70vw] lg:w-[60vw] h-[60vh] p-10 mt-[20vh] grid">
@@ -51,13 +88,20 @@ export function ChatCard(props: { spotifyData: any }) {
               <span>Here to judge your poor music tastes! From what I hear you seem to listening to:</span>
               {musicGenres.map((name: any, idx) => {
                 return (
-                  <Button key={idx} variant={"outline"} className="ml-1 mr-1 mt-1">
+                  <Button
+                    key={idx}
+                    variant={"outline"}
+                    className="ml-1 mr-1 mt-1"
+                    onClick={() => {
+                      handleQueryLlm(name);
+                    }}
+                  >
                     {name}
                   </Button>
                 );
               })}
-              <span>Click an genre to learn my thoughts!</span>
             </h1>
+            <h1 className="font-serif text-lg">Click an genre to learn my thoughts!</h1>
           </motion.div>
         </AnimatePresence>
       </Card>
