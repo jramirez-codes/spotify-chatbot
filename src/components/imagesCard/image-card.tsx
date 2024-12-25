@@ -24,7 +24,7 @@ export function ImageCard(props: { obj: any }) {
         {isHovering && (
           <>
             <div className="absolute w-[100%] p-4" style={{ top: Math.floor(size / 2) + "vh", left: 0 }}>
-              <motion.div key="box" exit={{ opacity: 0 }}>
+              <motion.div exit={{ opacity: 0 }}>
                 <h1 className="font-serif font-bolder text-center text-7xl drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] text-sky-400">
                   {props.obj.name}
                 </h1>

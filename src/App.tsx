@@ -2,8 +2,8 @@ import React from "react";
 import { SpotifyToken } from "./types/token";
 import { createClientToken } from "./util/createClientToken";
 import { fetchUserFavorite } from "./util/fetchUserFavorite";
-import { Card } from "./components/ui/card";
 import { ImageCard } from "./components/imagesCard/image-card";
+import { ChatCard } from "./components/chatCard/chat-card";
 
 function App() {
   const spotifyToken: SpotifyToken = createClientToken();
@@ -60,17 +60,9 @@ function App() {
                 })}
               </div>
             </div>
+            <ChatCard spotifyData={spotifyUserData} />
           </>
         ) : null}
-        <div className="rounded-lg backdrop-blur-sm w-[100vw] md:w-[70vw] lg:w-[60vw] h-[60vh] p-10 mt-[20vh] grid">
-          <Card className="p-5 justify-self-stretch">
-            <h1 className="font-serif text-xl"></h1>
-            <h1 className="font-serif text-lg">
-              Hello I am the <u>Criti Koala</u>,
-            </h1>
-            <h1 className="font-serif text-lg">Here to judge your poor music tastes!</h1>
-          </Card>
-        </div>
       </div>
     </>
   );
