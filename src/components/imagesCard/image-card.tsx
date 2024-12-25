@@ -25,7 +25,7 @@ export function ImageCard(props: { obj: any }) {
           <>
             <div className="absolute w-[100%]" style={{ top: Math.floor(size / 2) + "vh", left: 0 }}>
               <motion.div key="box" exit={{ opacity: 0 }}>
-                <h1 className="font-mono font-bolder text-center text-7xl" style={{ paintOrder: "stroke fill" }}>
+                <h1 className="font-bolder text-center text-7xl" style={{ paintOrder: "stroke fill" }}>
                   {props.obj.name}
                 </h1>
               </motion.div>
