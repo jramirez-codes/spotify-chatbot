@@ -3,6 +3,7 @@ import { SpotifyToken } from "./types/token";
 import { createClientToken } from "./util/createClientToken";
 import { fetchUserFavorite } from "./util/fetchUserFavorite";
 import { Card } from "./components/ui/card";
+import { ImageCard } from "./components/imagesCard/image-card";
 
 function App() {
   const spotifyToken: SpotifyToken = createClientToken();
@@ -39,41 +40,19 @@ function App() {
       {spotifyUserData ? (
         <>
           <div className="fixed top-0 left-0">
-            <div className="flex shink-0 animate-newScroll">
+            <div className="flex animate-newScroll">
               {spotifyUserData.topArtist.items.map((obj: any, idx: any) => {
-                const size = Math.floor(Math.random() * (35 - 10 + 1)) + 10;
-                const margin = Math.floor(Math.random() * (20 - 3 + 1)) + 3;
                 if (idx > spotifyUserData.topArtist.items.length / 2) {
-                  return (
-                    <div style={{ margin: margin }} className="relative">
-                      <img
-                        className="rounded object-contain drop-shadow-lg"
-                        style={{ minWidth: size + "vw", minHeight: size + "vw" }}
-                        src={obj.images[1].url}
-                        key={idx + obj.images[0].url}
-                      />
-                    </div>
-                  );
+                  return <ImageCard obj={obj} key={idx} />;
                 }
               })}
             </div>
           </div>
           <div className="fixed bottom-0 left-0">
-            <div className="flex shink-0 animate-newScroll">
+            <div className="flex animate-newScroll">
               {spotifyUserData.topArtist.items.map((obj: any, idx: any) => {
-                const size = Math.floor(Math.random() * (35 - 10 + 1)) + 10;
-                const margin = Math.floor(Math.random() * (20 - 3 + 1)) + 3;
                 if (idx <= spotifyUserData.topArtist.items.length / 2) {
-                  return (
-                    <div style={{ margin: margin }} className="relative">
-                      <img
-                        className="rounded object-contain drop-shadow-lg"
-                        style={{ minWidth: size + "vw", minHeight: size + "vw" }}
-                        src={obj.images[1].url}
-                        key={idx + obj.images[0].url}
-                      />
-                    </div>
-                  );
+                  return <ImageCard obj={obj} key={idx} />;
                 }
               })}
             </div>
