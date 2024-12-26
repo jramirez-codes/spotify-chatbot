@@ -3,7 +3,8 @@ import { Card } from "../ui/card";
 import { motion } from "motion/react";
 import React from "react";
 import { Button } from "../ui/button";
-import { handler } from "tailwindcss-animate";
+import { GenreInfo } from "@/types/genre";
+import PathMorphing from "./path-morfing";
 
 function Typewriter({ text, speed }) {
   const [displayText, setDisplayText] = React.useState("");
@@ -26,6 +27,7 @@ function Typewriter({ text, speed }) {
 
 export function ChatCard(props: { spotifyData: any }) {
   const [isQueryingLlm, setIsQueryLlm] = React.useState(false);
+  const [genreInfo, setGenreInfo] = React.useState<GenreInfo[]>([]);
 
   const musicGenres = React.useMemo(() => {
     if (props.spotifyData) {
@@ -35,9 +37,9 @@ export function ChatCard(props: { spotifyData: any }) {
           musicSet.add(genre);
         }
       }
-      return Array.from(musicSet);
+      return [...musicSet] as string[];
     }
-    return [];
+    return [] as string[];
   }, [props.spotifyData]);
 
   async function handleQueryLlm(genre: string) {
@@ -59,7 +61,7 @@ export function ChatCard(props: { spotifyData: any }) {
               content: genre,
             },
           ],
-          max_length: 60,
+          max_length: 120,
         }),
       };
 
@@ -67,46 +69,63 @@ export function ChatCard(props: { spotifyData: any }) {
         const response = await fetch(llmEndpoint, options);
         const data = await response.json();
         if (response.ok) {
-          alert(JSON.stringify(data));
+          setGenreInfo((e) => [
+            ...e,
+            {
+              genre: genre,
+              genre_response: data.received,
+            },
+          ]);
         }
       } catch (error) {
         console.error(error);
       }
-
       setIsQueryLlm((_) => false);
     }
   }
 
   return (
-    <div className="rounded-lg backdrop-blur-sm w-[100vw] md:w-[70vw] lg:w-[60vw] h-[60vh] p-10 mt-[20vh] grid">
-      <Card className="p-5 justify-self-stretch overflow-auto">
-        <h1 className="font-serif text-xl"></h1>
+    <div className="rounded-lg backdrop-blur-sm w-[100vw] md:w-[70vw] lg:w-[60vw] h-[75vh] p-10 mt-[10vh] grid">
+      <Card className="p-5 justify-self-stretch overflow-auto relative">
         <h1 className="font-serif text-lg">
           Hello I am the <u>Criti Koala</u>,
         </h1>
-        <AnimatePresence>
-          <motion.div exit={{ opacity: 0 }}>
-            <h1 className="font-serif text-lg">
-              {/* <Typewriter text={`Here to judge your poor music tastes! From what I hear you seem to listening to:`} speed={10} /> */}
-              <span>Here to judge your poor music tastes! From what I hear you seem to listening to:</span>
-              {musicGenres.map((name: any, idx) => {
-                return (
-                  <Button
-                    key={idx}
-                    variant={"outline"}
-                    className="ml-1 mr-1 mt-1"
-                    onClick={() => {
-                      handleQueryLlm(name);
-                    }}
-                  >
-                    {name}
-                  </Button>
-                );
-              })}
-            </h1>
-            <h1 className="font-serif text-lg">Click an genre to learn my thoughts!</h1>
-          </motion.div>
-        </AnimatePresence>
+        <motion.div exit={{ opacity: 0 }} className="sticky top-0 left-0 bg-white">
+          <h1 className="font-serif text-lg">
+            {/* <Typewriter text={`Here to judge your poor music tastes! From what I hear you seem to listening to:`} speed={10} /> */}
+            <span>Here to judge your poor music tastes! From what I hear you seem to listening to:</span>
+            {musicGenres.map((name: string, idx: number) => {
+              return (
+                <Button
+                  key={idx + name + 1}
+                  variant={"outline"}
+                  className="ml-1 mr-1 mt-1"
+                  onClick={() => {
+                    handleQueryLlm(name);
+                  }}
+                >
+                  {name}
+                </Button>
+              );
+            })}
+          </h1>
+          <h1 className="font-serif text-lg">Click an genre to learn my thoughts!</h1>
+          {isQueryingLlm && (
+            <div className="absolute top-0 right-0">
+              <h1>LOADING</h1>
+            </div>
+          )}
+        </motion.div>
+        {genreInfo.map((obj, idx) => {
+          return (
+            <React.Fragment key={3 + obj.genre + idx}>
+              <h1 className="font-serif text-lg underline font-bold">{obj.genre}</h1>
+              <h1 className="font-serif text-lg">
+                <Typewriter text={obj.genre_response} speed={60} />
+              </h1>
+            </React.Fragment>
+          );
+        })}
       </Card>
     </div>
   );
