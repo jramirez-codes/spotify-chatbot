@@ -3,7 +3,6 @@ import { motion } from "motion/react";
 import React from "react";
 import { Button } from "../ui/button";
 import { GenreInfo } from "@/types/genre";
-import { Loader2 } from "lucide-react";
 import { capitalizeWords } from "@/util/ capitalizeWords";
 function Typewriter({ text, speed }) {
   const [displayText, setDisplayText] = React.useState("");
@@ -27,6 +26,8 @@ function Typewriter({ text, speed }) {
 export function ChatCard(props: { spotifyData: any }) {
   const [isQueryingLlm, setIsQueryLlm] = React.useState(false);
   const [genreInfo, setGenreInfo] = React.useState<GenreInfo[]>([]);
+  const [selectedSong, setSelectedSong] = React.useState<any>(null);
+  const playRef = React.useRef();
 
   const musicGenres = React.useMemo(() => {
     if (props.spotifyData) {
@@ -43,7 +44,16 @@ export function ChatCard(props: { spotifyData: any }) {
 
   async function handleQueryLlm(genre: string) {
     if (!isQueryingLlm) {
+      const getRandomInt = (min, max) => {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      };
+
       setIsQueryLlm((_) => true);
+
+      // Select Random Song => Make sure it is playable
+      setSelectedSong((_) => props.spotifyData.topSongs.items[getRandomInt(0, props.spotifyData.topSongs.items.length)]);
       const llmEndpoint = import.meta.env.VITE_LLM_API;
       const options = {
         method: "POST",
@@ -110,10 +120,21 @@ export function ChatCard(props: { spotifyData: any }) {
           </h1>
           {isQueryingLlm && (
             <div className="absolute top-0 right-0 w-[100%] h-[100%] backdrop-blur-sm rounded">
-              <div className="ml-[48%] mt-4">
+              {/* <div className="ml-[48%] mt-4">
                 <Loader2 className="animate-spin" size={64} />
               </div>
-              <h1 className="font-serif text-2xl font-bold text-center">Judging your music tastes, please wait!</h1>
+              <h1 className="font-serif text-2xl font-bold text-center">Judging your music tastes, please wait!</h1> */}
+              {selectedSong && (
+                <iframe
+                  className="p-4"
+                  src={`https://open.spotify.com/embed/track/${selectedSong.id}?utm_source=generator`}
+                  width="100%"
+                  height="100%"
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                  ref={playRef.current}
+                />
+              )}
             </div>
           )}
         </motion.div>
