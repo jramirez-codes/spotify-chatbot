@@ -1,11 +1,10 @@
-import { AnimatePresence } from "motion/react";
 import { Card } from "../ui/card";
 import { motion } from "motion/react";
 import React from "react";
 import { Button } from "../ui/button";
 import { GenreInfo } from "@/types/genre";
-import PathMorphing from "./path-morfing";
-
+import { Loader2 } from "lucide-react";
+import { capitalizeWords } from "@/util/ capitalizeWords";
 function Typewriter({ text, speed }) {
   const [displayText, setDisplayText] = React.useState("");
   React.useEffect(() => {
@@ -86,11 +85,11 @@ export function ChatCard(props: { spotifyData: any }) {
 
   return (
     <div className="rounded-lg backdrop-blur-sm w-[100vw] md:w-[70vw] lg:w-[60vw] h-[75vh] p-10 mt-[10vh] grid">
-      <Card className="p-5 justify-self-stretch overflow-auto relative">
+      <Card className="pl-5 pb-5 pr-5 pt-0 justify-self-stretch overflow-auto relative">
         <h1 className="font-serif text-lg">
           Hello I am the <u>Criti Koala</u>,
         </h1>
-        <motion.div exit={{ opacity: 0 }} className="sticky top-0 left-0 bg-white">
+        <motion.div exit={{ opacity: 0 }} className="sticky top-0 left-0 bg-white pb-2">
           <h1 className="font-serif text-lg">
             {/* <Typewriter text={`Here to judge your poor music tastes! From what I hear you seem to listening to:`} speed={10} /> */}
             <span>Here to judge your poor music tastes! From what I hear you seem to listening to:</span>
@@ -104,22 +103,25 @@ export function ChatCard(props: { spotifyData: any }) {
                     handleQueryLlm(name);
                   }}
                 >
-                  {name}
+                  {capitalizeWords(name)}
                 </Button>
               );
             })}
           </h1>
-          <h1 className="font-serif text-lg">Click an genre to learn my thoughts!</h1>
           {isQueryingLlm && (
-            <div className="absolute top-0 right-0">
-              <h1>LOADING</h1>
+            <div className="absolute top-0 right-0 w-[100%] h-[100%] backdrop-blur-sm rounded">
+              <div className="ml-[48%] mt-4">
+                <Loader2 className="animate-spin" size={64} />
+              </div>
+              <h1 className="font-serif text-2xl font-bold text-center">Judging your music tastes, please wait!</h1>
             </div>
           )}
         </motion.div>
+        <h1 className="font-serif text-lg">Click an genre to learn my thoughts!</h1>
         {genreInfo.map((obj, idx) => {
           return (
             <React.Fragment key={3 + obj.genre + idx}>
-              <h1 className="font-serif text-lg underline font-bold">{obj.genre}</h1>
+              <h1 className="font-serif text-lg underline font-bold">{capitalizeWords(obj.genre)}</h1>
               <h1 className="font-serif text-lg">
                 <Typewriter text={obj.genre_response} speed={60} />
               </h1>
