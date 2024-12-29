@@ -5,13 +5,19 @@ import { Button } from "../ui/button";
 import { GenreInfo } from "@/types/genre";
 import { capitalizeWords } from "@/util/ capitalizeWords";
 import { Loader2 } from "lucide-react";
-import { SpotifyData, TopSongsItem } from "@/types/spotify";
+import { SpotifyData } from "@/types/spotify";
 import { Typewriter } from "./sub-compnents/typewriter";
 
 export function ChatCard(props: { spotifyData: SpotifyData }) {
   const [isQueryingLlm, setIsQueryLlm] = React.useState(false);
   const [genreInfo, setGenreInfo] = React.useState<GenreInfo[]>([]);
-  const [selectedSong, setSelectedSong] = React.useState<TopSongsItem | null>(null);
+
+  const scrollIntoView = () => {
+    const targetElement = document.getElementById("GENRE_BOTTOM");
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   const musicGenres = React.useMemo(() => {
     if (props.spotifyData) {
@@ -28,17 +34,7 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
 
   async function handleQueryLlm(genre: string) {
     if (!isQueryingLlm) {
-      const getRandomInt = (min: number, max: number) => {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-      };
-
-      setIsQueryLlm((_: boolean) => true);
-      // Select Random Song => Make sure it is playable
-      const validSongs = props.spotifyData.topSongs.items.filter((e: TopSongsItem) => e.is_playable);
-      setSelectedSong((_) => validSongs[getRandomInt(0, validSongs.length)]);
-
+      setIsQueryLlm((_) => true);
       // Configure Endpoint
       const llmEndpoint = import.meta.env.VITE_LLM_API;
       const options = {
@@ -71,6 +67,8 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
               genre_response: data.received,
             },
           ]);
+          // Scroll Into View
+          scrollIntoView();
         }
       } catch (error) {
         console.error(error);
@@ -88,7 +86,7 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
         <motion.div exit={{ opacity: 0 }} className="sticky top-0 left-0 bg-white pb-2">
           <h1 className="font-serif text-lg">
             {/* <Typewriter text={`Here to judge your poor music tastes! From what I hear you seem to listening to:`} speed={10} /> */}
-            <span>Here to judge your poor music tastes! From what I hear you seem to listening to:</span>
+            <span>Here to judge your music tastes! From what I hear you seem to listening to:</span>
             {musicGenres.map((name: string, idx: number) => {
               return (
                 <Button
@@ -129,7 +127,7 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
         <h1 className="font-serif text-lg">Click an genre to learn my thoughts!</h1>
         {genreInfo.map((obj, idx) => {
           return (
-            <React.Fragment key={3 + obj.genre + idx}>
+            <React.Fragment key={"GENRE_IFNO" + obj.genre + idx}>
               <h1 className="font-serif text-lg underline font-bold">{capitalizeWords(obj.genre)}</h1>
               <h1 className="font-serif text-lg">
                 <Typewriter text={obj.genre_response} speed={60} />
@@ -137,6 +135,7 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
             </React.Fragment>
           );
         })}
+        <div id="GENRE_BOTTOM" />
       </Card>
     </div>
   );

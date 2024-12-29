@@ -16,8 +16,8 @@ RUN pip install -r requirements.txt
 # Download Model
 RUN python save_model.py
 
-# Expose port 8080
-EXPOSE 8080
+# Expose port 8081
+EXPOSE 8081
 
 # Run the application
 CMD ["python", "app.py"]
