@@ -34,10 +34,12 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
       };
 
-      setIsQueryLlm((_) => true);
-
+      setIsQueryLlm((_: boolean) => true);
       // Select Random Song => Make sure it is playable
-      setSelectedSong((_) => props.spotifyData.topSongs.items[getRandomInt(0, props.spotifyData.topSongs.items.length)]);
+      const validSongs = props.spotifyData.topSongs.items.filter((e: TopSongsItem) => e.is_playable);
+      setSelectedSong((_) => validSongs[getRandomInt(0, validSongs.length)]);
+
+      // Configure Endpoint
       const llmEndpoint = import.meta.env.VITE_LLM_API;
       const options = {
         method: "POST",
@@ -107,7 +109,9 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
               <div className="ml-[48%] mt-4">
                 <Loader2 className="animate-spin" size={64} />
               </div>
-              <h1 className="font-serif text-2xl font-bold text-center">Judging your music tastes, please wait!</h1>
+              <h1 className="font-serif text-2xl font-bold text-center">
+                <Typewriter text="Judging your music tastes, please wait!" speed={60} />
+              </h1>
               {/* {selectedSong && (
                 <iframe
                   className="p-4"

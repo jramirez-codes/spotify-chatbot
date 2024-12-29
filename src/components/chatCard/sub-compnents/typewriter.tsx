@@ -1,4 +1,5 @@
 import React from "react";
+
 export function Typewriter(props: { text: string; speed: number }) {
   const [displayText, setDisplayText] = React.useState("");
   React.useEffect(() => {

@@ -1,7 +1,8 @@
 import React from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { TopArtistItem } from "@/types/spotify";
 
-export function ImageCard(props: { obj: any }) {
+export function ImageCard(props: { obj: TopArtistItem }) {
   const [isHovering, setIsHovering] = React.useState(false);
   const [size] = React.useState(Math.floor(Math.random() * (35 - 10 + 1)) + 10);
   const [margin] = React.useState(Math.floor(Math.random() * (20 - 3 + 1)) + 3);
