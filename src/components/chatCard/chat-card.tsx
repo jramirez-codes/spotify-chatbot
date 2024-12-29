@@ -4,30 +4,14 @@ import React from "react";
 import { Button } from "../ui/button";
 import { GenreInfo } from "@/types/genre";
 import { capitalizeWords } from "@/util/ capitalizeWords";
-function Typewriter({ text, speed }) {
-  const [displayText, setDisplayText] = React.useState("");
-  React.useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      setDisplayText(text.slice(0, i + 1));
-      i++;
+import { Loader2 } from "lucide-react";
+import { SpotifyData, TopSongsItem } from "@/types/spotify";
+import { Typewriter } from "./sub-compnents/typewriter";
 
-      if (i === text.length) {
-        clearInterval(interval);
-      }
-    }, speed);
-
-    return () => clearInterval(interval);
-  }, [text, speed]);
-
-  return <span>{displayText}</span>;
-}
-
-export function ChatCard(props: { spotifyData: any }) {
+export function ChatCard(props: { spotifyData: SpotifyData }) {
   const [isQueryingLlm, setIsQueryLlm] = React.useState(false);
   const [genreInfo, setGenreInfo] = React.useState<GenreInfo[]>([]);
-  const [selectedSong, setSelectedSong] = React.useState<any>(null);
-  const playRef = React.useRef();
+  const [selectedSong, setSelectedSong] = React.useState<TopSongsItem | null>(null);
 
   const musicGenres = React.useMemo(() => {
     if (props.spotifyData) {
@@ -44,7 +28,7 @@ export function ChatCard(props: { spotifyData: any }) {
 
   async function handleQueryLlm(genre: string) {
     if (!isQueryingLlm) {
-      const getRandomInt = (min, max) => {
+      const getRandomInt = (min: number, max: number) => {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -120,11 +104,11 @@ export function ChatCard(props: { spotifyData: any }) {
           </h1>
           {isQueryingLlm && (
             <div className="absolute top-0 right-0 w-[100%] h-[100%] backdrop-blur-sm rounded">
-              {/* <div className="ml-[48%] mt-4">
+              <div className="ml-[48%] mt-4">
                 <Loader2 className="animate-spin" size={64} />
               </div>
-              <h1 className="font-serif text-2xl font-bold text-center">Judging your music tastes, please wait!</h1> */}
-              {selectedSong && (
+              <h1 className="font-serif text-2xl font-bold text-center">Judging your music tastes, please wait!</h1>
+              {/* {selectedSong && (
                 <iframe
                   className="p-4"
                   src={`https://open.spotify.com/embed/track/${selectedSong.id}?utm_source=generator`}
@@ -134,7 +118,7 @@ export function ChatCard(props: { spotifyData: any }) {
                   loading="lazy"
                   ref={playRef.current}
                 />
-              )}
+              )} */}
             </div>
           )}
         </motion.div>

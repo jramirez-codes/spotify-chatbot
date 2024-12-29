@@ -4,10 +4,11 @@ import { createClientToken } from "./util/createClientToken";
 import { fetchUserFavorite } from "./util/fetchUserFavorite";
 import { ImageCard } from "./components/imagesCard/image-card";
 import { ChatCard } from "./components/chatCard/chat-card";
+import { SpotifyData, TopArtistItem } from "./types/spotify";
 
 function App() {
   const spotifyToken: SpotifyToken = createClientToken();
-  const [spotifyUserData, setSpotifyUserData] = React.useState<any>(null);
+  const [spotifyUserData, setSpotifyUserData] = React.useState<SpotifyData | null>(null);
 
   // Fetching User Info
   React.useEffect(() => {
@@ -44,7 +45,7 @@ function App() {
           <>
             <div className="fixed top-0 left-0">
               <div className="flex animate-newScroll">
-                {spotifyUserData.topArtist.items.map((obj: any, idx: any) => {
+                {spotifyUserData.topArtist.items.map((obj: TopArtistItem, idx: number) => {
                   if (idx > spotifyUserData.topArtist.items.length / 2) {
                     return <ImageCard obj={obj} key={idx} />;
                   }
@@ -53,7 +54,7 @@ function App() {
             </div>
             <div className="fixed bottom-0 left-0">
               <div className="flex animate-newScroll">
-                {spotifyUserData.topArtist.items.map((obj: any, idx: any) => {
+                {spotifyUserData.topArtist.items.map((obj: TopArtistItem, idx: number) => {
                   if (idx <= spotifyUserData.topArtist.items.length / 2) {
                     return <ImageCard obj={obj} key={idx} />;
                   }
