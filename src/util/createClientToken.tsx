@@ -10,7 +10,14 @@ const randomString = (length: number) => {
 function routeToSpotifyAuth() {
   // Create New Login
   const client_id = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
-  const redirect_uri = "http://localhost:5173/";
+  const urlRegex = /^(.*?\/.*?\/.*?)(?:\/|$)/;
+  const match = window.location.href.match(urlRegex);
+  let redirect_uri = "";
+  if(match) {
+    redirect_uri = match[1]+'/'
+    alert(match[1])
+  }
+
   // alert(redirect_uri);
   const state = randomString(16);
   const scope = "user-top-read user-read-private user-read-email";
@@ -26,7 +33,6 @@ function routeToSpotifyAuth() {
 
 export function createClientToken() {
   const tokenKey = import.meta.env.VITE_SPOTIFY_STATE_KEY + "TOKEN";
-
   // Check Current Token
   const token = window.localStorage.getItem(tokenKey);
   if (token) {
