@@ -15,10 +15,8 @@ function routeToSpotifyAuth() {
   let redirect_uri = "";
   if(match) {
     redirect_uri = match[1]+'/'
-    alert(match[1])
   }
 
-  // alert(redirect_uri);
   const state = randomString(16);
   const scope = "user-top-read user-read-private user-read-email";
   let url = "https://accounts.spotify.com/authorize";

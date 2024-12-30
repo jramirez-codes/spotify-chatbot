@@ -19,15 +19,28 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
     }
   };
 
+  // Should Only get the top3
   const musicGenres = React.useMemo(() => {
     if (props.spotifyData) {
-      const musicSet = new Set();
+      interface musicSet {
+        [key: string]: number
+      }
+      const musicSet: musicSet = {}
       for (const artist of props.spotifyData.topArtist.items) {
         for (const genre of artist.genres) {
-          musicSet.add(genre);
+          if (musicSet.hasOwnProperty(genre)) {
+            musicSet[genre] += 1
+          }
+          else {
+            musicSet[genre] = 1
+          }
         }
       }
-      return [...musicSet] as string[];
+
+      return Object.entries(musicSet)
+        .sort(([, valueA], [, valueB]) => valueB - valueA) // Sort descending by values
+        .slice(0, 4) // Take the top three
+        .map(([key]) => key); // Extract the keys
     }
     return [] as string[];
   }, [props.spotifyData]);
