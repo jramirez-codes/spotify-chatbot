@@ -1,6 +1,8 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
+import re
 from flask import Flask, request, jsonify
+import sys
 
 app = Flask(__name__)
 
@@ -63,6 +65,12 @@ def generate_response(model, tokenizer, device, messages, max_length: int = 50):
 
 @app.route('/', methods=['OPTIONS', 'POST'])
 def handle_llm_request():
+    # Check for CORS
+    pattern = r"^.*jordanramirez.com.*$" if sys.argv[1] == 'prod' else r"^.*localhost.*$"
+    origin = request.headers.get("Origin")
+    if origin and not re.match(pattern, origin):
+        return jsonify({"error": "Origin not allowed"}), 403
+
     if request.method == 'OPTIONS':
         # Preflight request
         response = jsonify({"message": "CORS preflight"})
@@ -87,5 +95,5 @@ def handle_llm_request():
         return res, 200
 
 if __name__ == '__main__':
-    # app.run(host='0.0.0.0', port=8080)
-    app.run(host='0.0.0.0', port=8081)
+    app.run(host='0.0.0.0', port=8080)
+    # app.run(host='0.0.0.0', port=8081)
