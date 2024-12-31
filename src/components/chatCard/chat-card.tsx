@@ -53,7 +53,6 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
 
       // Check to see if there are cached results
       let llmResults:any = await fetchCachedRecord(genre)
-      alert(JSON.stringify(llmResults))
       if(llmResults === null) {
         // Fetch New Results
         llmResults = (await fetchLlmResults(genre)).received
