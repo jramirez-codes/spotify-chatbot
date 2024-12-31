@@ -123,7 +123,7 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
                 <Loader2 className="animate-spin" size={64} />
               </div>
               <h1 className="font-serif text-2xl font-bold text-center">
-                <Typewriter text="Judging your music tastes, please wait!" speed={60} />
+                <Typewriter text="Judging your music tastes, please wait!" speed={60} typeEnabled={true} setGenreRenderFlag={()=>{}} />
               </h1>
             </div>
           )}
