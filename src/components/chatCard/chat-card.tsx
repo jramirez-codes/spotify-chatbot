@@ -96,7 +96,7 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
         <h1 className="font-serif text-lg">
           Hello I am the <u>Criti Koala</u>,
         </h1>
-        <motion.div exit={{ opacity: 0 }} className="sticky top-0 left-0 bg-white pb-2">
+        <motion.div exit={{ opacity: 0 }} className="sticky top-0 left-0 bg-white pb-2 min-h-[150px]">
           <h1 className="font-serif text-lg">
             {/* <Typewriter text={`Here to judge your poor music tastes! From what I hear you seem to listening to:`} speed={10} /> */}
             <span>Here to judge your music tastes! From what I hear you seem to listening to:</span>
@@ -123,17 +123,6 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
               <h1 className="font-serif text-2xl font-bold text-center">
                 <Typewriter text="Judging your music tastes, please wait!" speed={60} />
               </h1>
-              {/* {selectedSong && (
-                <iframe
-                  className="p-4"
-                  src={`https://open.spotify.com/embed/track/${selectedSong.id}?utm_source=generator`}
-                  width="100%"
-                  height="100%"
-                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                  loading="lazy"
-                  ref={playRef.current}
-                />
-              )} */}
             </div>
           )}
         </motion.div>

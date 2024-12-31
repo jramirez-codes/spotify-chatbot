@@ -5,25 +5,25 @@ export interface SpotifyData {
 
 export interface TopArtist {
   items: TopArtistItem[];
-  total: number;
-  limit: number;
-  offset: number;
-  href: string;
-  next: string;
-  previous: null;
+  total?: number;
+  limit?: number;
+  offset?: number;
+  href?: string;
+  next?: string;
+  previous?: null;
 }
 
 export interface TopArtistItem {
-  external_urls: ExternalUrls;
-  followers: Followers;
+  external_urls?: ExternalUrls;
+  followers?: Followers;
   genres: string[];
-  href: string;
+  href?: string;
   id: string;
-  images: Image[];
-  name: string;
-  popularity: number;
-  type: ArtistType;
-  uri: string;
+  images?: Image[];
+  name?: string;
+  popularity?: number;
+  type?: ArtistType;
+  uri?: string;
 }
 
 export interface ExternalUrls {
@@ -47,33 +47,33 @@ export enum ArtistType {
 
 export interface TopSongs {
   items: TopSongsItem[];
-  total: number;
-  limit: number;
-  offset: number;
-  href: string;
-  next: string;
-  previous: null;
+  total?: number;
+  limit?: number;
+  offset?: number;
+  href?: string;
+  next?: string;
+  previous?: null;
 }
 
 export interface TopSongsItem {
-  album: Album;
-  artists: Artist[];
-  available_markets: string[];
-  disc_number: number;
-  duration_ms: number;
-  explicit: boolean;
-  external_ids: ExternalIDS;
-  external_urls: ExternalUrls;
-  href: string;
+  album?: Album;
+  artists?: Artist[];
+  available_markets?: string[];
+  disc_number?: number;
+  duration_ms?: number;
+  explicit?: boolean;
+  external_ids?: ExternalIDS;
+  external_urls?: ExternalUrls;
+  href?: string;
   id: string;
-  is_local: boolean;
-  is_playable: boolean;
+  is_local?: boolean;
+  is_playable?: boolean;
   name: string;
-  popularity: number;
-  preview_url: null;
-  track_number: number;
-  type: PurpleType;
-  uri: string;
+  popularity?: number;
+  preview_url?: null;
+  track_number?: number;
+  type?: PurpleType;
+  uri?: string;
 }
 
 export interface Album {
