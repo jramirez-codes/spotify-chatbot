@@ -19,9 +19,9 @@ export interface TopArtistItem {
   genres: string[];
   href?: string;
   id: string;
-  images?: Image[];
-  name?: string;
-  popularity?: number;
+  images: Image[];
+  name: string;
+  popularity: number;
   type?: ArtistType;
   uri?: string;
 }

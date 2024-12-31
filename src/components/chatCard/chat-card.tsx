@@ -9,6 +9,7 @@ import { SpotifyData } from "@/types/spotify";
 import { Typewriter } from "./sub-compnents/typewriter";
 import { fetchLlmResults } from "@/util/fetchLlmResults";
 import { cacheNewRecord, fetchCachedRecord } from "@/util/turso";
+import { RelatedArtists } from "./sub-compnents/related-artists";
 
 interface MusicSet {
   [key: string]: number
@@ -21,13 +22,6 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
   const [isQueryingLlm, setIsQueryLlm] = React.useState(false);
   const [genreInfo, setGenreInfo] = React.useState<GenreSet>({});
   const [selectedGenre, setSelectedGenre] = React.useState("")
-
-  const scrollIntoView = () => {
-    const targetElement = document.getElementById("GENRE_BOTTOM");
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   // Should Only get the top 4
   const musicGenres = React.useMemo(() => {
@@ -73,7 +67,6 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
         }
         return e
       })
-      scrollIntoView();
 
       setIsQueryLlm((_) => false);
     }
@@ -81,7 +74,7 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
   }
 
   function setGenreRenderFlag() {
-    setGenreInfo(e=>{
+    setGenreInfo(e => {
       e[selectedGenre].genre_rendered = true
       return e
     })
@@ -123,26 +116,29 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
                 <Loader2 className="animate-spin" size={64} />
               </div>
               <h1 className="font-serif text-2xl font-bold text-center">
-                <Typewriter text="Judging your music tastes, please wait!" speed={60} typeEnabled={true} setGenreRenderFlag={()=>{}} />
+                <Typewriter text="Judging your music tastes, please wait!" speed={60} typeEnabled={true} setGenreRenderFlag={() => { }} />
               </h1>
             </div>
           )}
         </motion.div>
+        {/* Display LLM Response */}
         {selectedGenre !== "" ? (
-          <React.Fragment>
+          <div className="mb-5 border-2 p-2 rounded-md min-h-[100px]">
+            <h1 className="font-serif text-xl font-bold">My thoughts on {capitalizeWords(selectedGenre)}...</h1>
             <h1 className="font-serif text-lg">
               <Typewriter
                 text={genreInfo[selectedGenre].genre_response + '...'}
                 speed={2}
                 typeEnabled={!genreInfo[selectedGenre].genre_rendered}
-                setGenreRenderFlag={()=>{setGenreRenderFlag()}}
+                setGenreRenderFlag={() => { setGenreRenderFlag() }}
               />
             </h1>
-          </React.Fragment>
+          </div>
         ) : (
           <h1 className="font-serif text-lg text-center font-bold">Click an genre to learn my thoughts!</h1>
         )}
-        <div id="GENRE_BOTTOM" />
+        {/* Map Out Related Related Artists */}
+        <RelatedArtists spotifyArtists={props.spotifyData.topArtist} genre={selectedGenre} />
       </Card>
     </div>
   );
