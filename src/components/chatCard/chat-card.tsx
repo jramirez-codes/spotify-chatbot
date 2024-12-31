@@ -69,6 +69,7 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
         e[genre] = {
           genre: genre,
           genre_response: llmResults,
+          genre_rendered: false,
         }
         return e
       })
@@ -79,13 +80,20 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
     setSelectedGenre(genre)
   }
 
+  function setGenreRenderFlag() {
+    setGenreInfo(e=>{
+      e[selectedGenre].genre_rendered = true
+      return e
+    })
+  }
+
   return (
     <div className="rounded-lg backdrop-blur-sm w-[100vw] md:w-[70vw] lg:w-[60vw] h-[75vh] p-10 mt-[10vh] grid">
       <Card className="pl-5 pb-5 pr-5 pt-0 justify-self-stretch overflow-auto relative">
         <h1 className="font-serif text-lg">
           Hello I am the <u>Criti Koala</u>,
         </h1>
-        <motion.div exit={{ opacity: 0 }} className="sticky top-0 left-0 bg-white pb-2 min-h-[100px]">
+        <motion.div exit={{ opacity: 0 }} className="sticky top-0 left-0 bg-white pb-2 min-h-[100px] mb-2">
           <h1 className="font-serif text-lg">
             {/* <Typewriter text={`Here to judge your poor music tastes! From what I hear you seem to listening to:`} speed={10} /> */}
             <span>Here to judge your music tastes! From what I hear you seem to listening to:</span>
@@ -123,7 +131,12 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
         {selectedGenre !== "" ? (
           <React.Fragment>
             <h1 className="font-serif text-lg">
-              <Typewriter text={genreInfo[selectedGenre].genre_response + '...'} speed={60} />
+              <Typewriter
+                text={genreInfo[selectedGenre].genre_response + '...'}
+                speed={2}
+                typeEnabled={!genreInfo[selectedGenre].genre_rendered}
+                setGenreRenderFlag={()=>{setGenreRenderFlag()}}
+              />
             </h1>
           </React.Fragment>
         ) : (

@@ -10,21 +10,28 @@ const parseMarkdown = (text: string) => {
   });
 };
 
-export function Typewriter(props: { text: string; speed: number }) {
+export function Typewriter(props: { text: string; speed: number, typeEnabled: boolean, setGenreRenderFlag: Function }) {
   const [displayText, setDisplayText] = React.useState("");
+
   React.useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      setDisplayText(props.text.slice(0, i + 1));
-      i++;
-
-      if (i === props.text.length) {
-        clearInterval(interval);
-      }
-    }, props.speed);
-
-    return () => clearInterval(interval);
-  }, [props.text, props.speed]);
+    if(props.typeEnabled) {
+      let i = 0;
+      const interval = setInterval(() => {
+        setDisplayText(props.text.slice(0, i + 1));
+        i++;
+  
+        if (i === props.text.length) {
+          clearInterval(interval);
+          props.setGenreRenderFlag()
+        }
+      }, props.speed);
+  
+      return () => clearInterval(interval);
+    }
+    else {
+      setDisplayText(props.text)
+    }
+  }, [props.text, props.speed, props.typeEnabled]);
 
   return (
     <React.Fragment>
