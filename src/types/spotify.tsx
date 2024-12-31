@@ -22,7 +22,7 @@ export interface TopArtistItem {
   images: Image[];
   name: string;
   popularity: number;
-  type?: ArtistType;
+  type: string;
   uri?: string;
 }
 
@@ -39,10 +39,6 @@ export interface Image {
   height: number;
   url: string;
   width: number;
-}
-
-export enum ArtistType {
-  Artist = "artist",
 }
 
 export interface TopSongs {
@@ -72,12 +68,12 @@ export interface TopSongsItem {
   popularity?: number;
   preview_url?: null;
   track_number?: number;
-  type?: PurpleType;
+  type?: string;
   uri?: string;
 }
 
 export interface Album {
-  album_type: AlbumTypeEnum;
+  album_type: string;
   artists: Artist[];
   available_markets: string[];
   external_urls: ExternalUrls;
@@ -86,16 +82,11 @@ export interface Album {
   images: Image[];
   is_playable: boolean;
   name: string;
-  release_date: Date;
-  release_date_precision: ReleaseDatePrecision;
+  release_date: string;
+  release_date_precision: string;
   total_tracks: number;
-  type: AlbumTypeEnum;
+  type: string;
   uri: string;
-}
-
-export enum AlbumTypeEnum {
-  Album = "album",
-  Single = "single",
 }
 
 export interface Artist {
@@ -103,7 +94,7 @@ export interface Artist {
   href: string;
   id: string;
   name: string;
-  type: ArtistType;
+  type: string;
   uri: string;
 }
 
@@ -113,8 +104,4 @@ export enum ReleaseDatePrecision {
 
 export interface ExternalIDS {
   isrc: string;
-}
-
-export enum PurpleType {
-  Track = "track",
 }
