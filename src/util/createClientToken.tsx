@@ -18,7 +18,7 @@ function routeToSpotifyAuth() {
   }
 
   const state = randomString(16);
-  const scope = "user-top-read user-read-private user-read-email";
+  const scope = "user-top-read";
   let url = "https://accounts.spotify.com/authorize";
   url += "?response_type=token";
   url += "&client_id=" + encodeURIComponent(client_id);

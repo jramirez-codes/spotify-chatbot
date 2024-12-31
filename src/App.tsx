@@ -17,7 +17,6 @@ function App() {
     if (!userFavorite) {
       const asnycFunc = async () => {
         const [topArtist, topSongs] = await fetchUserFavorite(spotifyToken);
-
         window.localStorage.setItem(
           key,
           JSON.stringify({

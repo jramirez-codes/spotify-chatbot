@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@libsql/client": "^0.14.0",
     "@radix-ui/react-slot": "^1.1.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
@@ -20,6 +21,7 @@
     "crypto-js": "^4.2.0",
     "lucide-react": "^0.469.0",
     "motion": "^11.15.0",
+    "pako": "^2.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwind-merge": "^2.5.5",
@@ -30,6 +32,7 @@
     "@types/crypto-js": "^4.2.2",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.2",
+    "@types/pako": "^2.0.3",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@types/testing-library__react": "^10.2.0",

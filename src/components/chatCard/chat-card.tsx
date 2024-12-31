@@ -7,6 +7,8 @@ import { capitalizeWords } from "@/util/ capitalizeWords";
 import { Loader2 } from "lucide-react";
 import { SpotifyData } from "@/types/spotify";
 import { Typewriter } from "./sub-compnents/typewriter";
+import { fetchLlmResults } from "@/util/fetchLlmResults";
+import { cacheNewRecord, fetchCachedRecord } from "@/util/turso";
 
 export function ChatCard(props: { spotifyData: SpotifyData }) {
   const [isQueryingLlm, setIsQueryLlm] = React.useState(false);
@@ -19,7 +21,7 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
     }
   };
 
-  // Should Only get the top3
+  // Should Only get the top 4
   const musicGenres = React.useMemo(() => {
     if (props.spotifyData) {
       interface musicSet {
@@ -48,44 +50,27 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
   async function handleQueryLlm(genre: string) {
     if (!isQueryingLlm) {
       setIsQueryLlm((_) => true);
-      // Configure Endpoint
-      const llmEndpoint = import.meta.env.VITE_LLM_API;
-      const options = {
-        method: "POST",
-        // mode: "cors",
-        headers: new Headers({ "content-type": "application/json", "Access-Control-Allow-Origin": "*" }),
-        body: JSON.stringify({
-          messages: [
-            {
-              role: "system",
-              content: "Given a genre, crtitize each one and why they might be bad for the community",
-            },
-            {
-              role: "user",
-              content: genre,
-            },
-          ],
-          max_length: 120,
-        }),
-      };
 
-      try {
-        const response = await fetch(llmEndpoint, options);
-        const data = await response.json();
-        if (response.ok) {
-          setGenreInfo((e) => [
-            ...e,
-            {
-              genre: genre,
-              genre_response: data.received,
-            },
-          ]);
-          // Scroll Into View
-          scrollIntoView();
-        }
-      } catch (error) {
-        console.error(error);
+      // Check to see if there are cached results
+      let llmResults:any = await fetchCachedRecord(genre)
+      alert(JSON.stringify(llmResults))
+      if(llmResults === null) {
+        // Fetch New Results
+        llmResults = (await fetchLlmResults(genre)).received
+        cacheNewRecord(genre, llmResults)
       }
+      
+      // Update Front End State
+      setGenreInfo((e) => [
+        ...e,
+        {
+          genre: genre,
+          genre_response: llmResults,
+        },
+      ]);
+      // Scroll Into View
+      scrollIntoView();
+
       setIsQueryLlm((_) => false);
     }
   }
