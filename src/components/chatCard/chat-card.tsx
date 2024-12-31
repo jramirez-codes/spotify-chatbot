@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import React from "react";
 import { Button } from "../ui/button";
 import { GenreInfo } from "@/types/genre";
-import { capitalizeWords } from "@/util/ capitalizeWords";
+import { capitalizeWords } from "@/util/capitalizeWords";
 import { Loader2 } from "lucide-react";
 import { SpotifyData } from "@/types/spotify";
 import { Typewriter } from "./sub-compnents/typewriter";
