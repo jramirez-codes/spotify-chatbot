@@ -68,8 +68,8 @@ def handle_llm_request():
     # Check for CORS
     pattern = r"^.*jordanramirez.com.*$" if sys.argv[1] == 'prod' else r"^.*localhost.*$"
     origin = request.headers.get("Origin")
-    if origin and not re.match(pattern, origin):
-        return jsonify({"error": "Origin not allowed"}), 403
+    if not origin or (origin and not re.match(pattern, origin)):
+        return jsonify({"message": "Auth Error"}), 401
 
     if request.method == 'OPTIONS':
         # Preflight request
