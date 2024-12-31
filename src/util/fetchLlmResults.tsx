@@ -12,7 +12,7 @@ export async function fetchLlmResults(genre:string) {
       messages: [
         {
           role: "system",
-          content: "Given a genre, crtitize each one and why they might be bad for the community",
+          content: "You are a music expert. Given a genre, crtitize the music genre in less than two sentances.",
         },
         {
           role: "user",

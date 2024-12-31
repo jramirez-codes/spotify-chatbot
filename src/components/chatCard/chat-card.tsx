@@ -52,13 +52,13 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
       setIsQueryLlm((_) => true);
 
       // Check to see if there are cached results
-      let llmResults:any = await fetchCachedRecord(genre)
-      if(llmResults === null) {
+      let llmResults: any = await fetchCachedRecord(genre)
+      if (llmResults === null) {
         // Fetch New Results
         llmResults = (await fetchLlmResults(genre)).received
         cacheNewRecord(genre, llmResults)
       }
-      
+
       // Update Front End State
       setGenreInfo((e) => [
         ...e,
@@ -80,25 +80,31 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
         <h1 className="font-serif text-lg">
           Hello I am the <u>Criti Koala</u>,
         </h1>
-        <motion.div exit={{ opacity: 0 }} className="sticky top-0 left-0 bg-white pb-2 min-h-[150px]">
+        <motion.div exit={{ opacity: 0 }} className="sticky top-0 left-0 bg-white pb-2 min-h-[100px]">
           <h1 className="font-serif text-lg">
             {/* <Typewriter text={`Here to judge your poor music tastes! From what I hear you seem to listening to:`} speed={10} /> */}
             <span>Here to judge your music tastes! From what I hear you seem to listening to:</span>
-            {musicGenres.map((name: string, idx: number) => {
-              return (
-                <Button
-                  key={idx + name + 1}
-                  variant={"outline"}
-                  className="ml-1 mr-1 mt-1"
-                  onClick={() => {
-                    handleQueryLlm(name);
-                  }}
-                >
-                  {capitalizeWords(name)}
-                </Button>
-              );
-            })}
           </h1>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-1">
+          {musicGenres.map((name: string, idx: number) => {
+            return (
+              <div
+                key={idx + name + 1}
+                className="col-span-1 p-1"
+              >
+              <Button
+                variant={"outline"}
+                className="w-full min-h-[50px]"
+                onClick={() => {
+                  handleQueryLlm(name);
+                }}
+              >
+                {capitalizeWords(name)}
+              </Button>
+              </div>
+            );
+          })}
+          </div>
           {isQueryingLlm && (
             <div className="absolute top-0 right-0 w-[100%] h-[100%] backdrop-blur-sm rounded">
               <div className="ml-[48%] mt-4">
@@ -116,7 +122,7 @@ export function ChatCard(props: { spotifyData: SpotifyData }) {
             <React.Fragment key={"GENRE_IFNO" + obj.genre + idx}>
               <h1 className="font-serif text-lg underline font-bold">{capitalizeWords(obj.genre)}</h1>
               <h1 className="font-serif text-lg">
-                <Typewriter text={obj.genre_response} speed={60} />
+                <Typewriter text={obj.genre_response+'...'} speed={60} />
               </h1>
             </React.Fragment>
           );
