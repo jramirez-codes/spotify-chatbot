@@ -5287,7 +5287,15 @@ const spotifyStaticData:SpotifyData = {
 
 describe("Main Card - Unit Tests", () => {
   render(<ChatCard spotifyData={spotifyStaticData} />)
-  test('Image Card Loaded', async () => {
-    expect(true).toBeTruthy()
+
+  test('Card without Click', async () => {
+    expect(screen.getAllByText('Click an genre to learn my thoughts!')).toBeTruthy()
+  })
+
+  test('Card Loaded', async () => {
+    let element = screen.getAllByText('Rap')
+    await userEvent.click(element[0])
+    await new Promise(r => setTimeout(r, 500));
+    expect(screen.getAllByText('Kendrick Lamar')).toBeTruthy()
   })
 })
