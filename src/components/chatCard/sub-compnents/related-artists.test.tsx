@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { ChatCard } from './chat-card';
 import { SpotifyData } from '@/types/spotify'
 import { test, describe, expect } from 'vitest';
+import { RelatedArtists } from './related-artists';
 
 const spotifyStaticData: SpotifyData = {
   "topArtist": {
@@ -5285,17 +5284,12 @@ const spotifyStaticData: SpotifyData = {
   }
 }
 
-describe("Main Card - Unit Tests", () => {
-  render(<ChatCard spotifyData={spotifyStaticData} />)
-
-  test('Card without Click', async () => {
-    expect(screen.getAllByText('Click an genre to learn my thoughts!')).toBeTruthy()
-  })
-
-  test('Card Clicked', async () => {
-    let element = screen.getAllByText('Rap')
-    await userEvent.click(element[0])
-    await new Promise(r => setTimeout(r, 500));
+describe("Related Artists - Unit Tests", () => {
+  render(< RelatedArtists genre='rap' spotifyArtists={spotifyStaticData.topArtist}/>)
+  test('Kendrick Lamar Test', async () => {
     expect(screen.getAllByText('Kendrick Lamar')).toBeTruthy()
+  })
+  test('Drake Test', async () => {
+    expect(screen.getAllByText('Drake')).toBeTruthy()
   })
 })
