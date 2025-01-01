@@ -69,7 +69,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started. To avoid retyping too much info, do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`, `project_license`
+Spotify Genre Explorer is an innovative application that combines Spotify's music data with the power of large language models (LLMs) to provide users with a deeper understanding of their musical preferences. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
