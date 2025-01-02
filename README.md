@@ -18,19 +18,19 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
+  <a href="https://github.com/jramirez-codes/spotify-genre-critic">
     <img src="public/vite.svg" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Spotify Genre Critic</h3>
 
   <p align="center">
-    Spotify Genre Explorer is an innovative application that combines Spotify's music data with the power of large language models (LLMs) to provide users with a deeper understanding of their musical preferences. The application retrieves a user's top 20 artists from Spotify's API and uses an LLM to analyze and classify the genres most represented among those artists.
+    Spotify Genre Critic is an innovative application that combines Spotify's music data with the power of large language models (LLMs) to provide users with a deeper understanding of their musical preferences. The application retrieves a user's top 20 artists from Spotify's API and uses an LLM to analyze and classify the genres most represented among those artists.
     <br />
     <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    <a href="https://spotify-genre-critic.jordanramirez.com">View Demo</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/jramirez-codes/spotify-genre-critic/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -109,15 +109,20 @@ This is an example of how to list things you need to use the software and how to
 1. Get a free API Key at [https://example.com](https://example.com)
 2. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/jramirez-codes/spotify-genre-critic.git
    ```
 3. Install NPM packages
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+4. Enter your API in `.env`
+   ```
+    VITE_SPOTIFY_STATE_KEY
+    VITE_SPOTIFY_CLIENT_ID
+    VITE_SECRET_PASS
+    VITE_LLM_API
+    VITE_TURSO_DATABASE_URL
+    VITE_TURSO_AUTH_TOKEN
    ```
 5. Change git remote url to avoid accidental pushes to base project
    ```sh
@@ -153,22 +158,22 @@ Distributed under the project_license. See `LICENSE.txt` for more information.
 
 Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [https://github.com/jramirez-codes/spotify-genre-critic](https://github.com/jramirez-codes/spotify-genre-critic)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
+[contributors-url]: https://github.com/jramirez-codes/spotify-genre-critic/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
+[forks-url]: https://github.com/jramirez-codes/spotify-genre-critic/network/members
 [stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
+[stars-url]: https://github.com/jramirez-codes/spotify-genre-critic/stargazers
 [issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
+[issues-url]: https://github.com/jramirez-codes/spotify-genre-critic/issues
 [license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
+[license-url]: https://github.com/jramirez-codes/spotify-genre-critic/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
 [product-screenshot]: images/screenshot.png

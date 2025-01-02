@@ -12,27 +12,10 @@ function App() {
 
   // Fetching User Info
   React.useEffect(() => {
-    const key = "spotify-data";
-    const userFavorite = window.localStorage.getItem(key);
-    if (!userFavorite) {
-      const asnycFunc = async () => {
-        const [topArtist, topSongs] = await fetchUserFavorite(spotifyToken);
-        window.localStorage.setItem(
-          key,
-          JSON.stringify({
-            topArtist: topArtist,
-            topSongs: topSongs,
-          }),
-        );
-        setSpotifyUserData({
-          topArtist: topArtist,
-          topSongs: topSongs,
-        });
-      };
-      asnycFunc();
-    } else {
-      setSpotifyUserData(JSON.parse(userFavorite));
-    }
+    const asnycFunc = async () => {
+      setSpotifyUserData(await fetchUserFavorite(spotifyToken));
+    };
+    asnycFunc();
   }, []);
 
   console.log(spotifyUserData);
