@@ -1,4 +1,5 @@
 import { SpotifyToken } from "@/types/token";
+import CryptoJS from "crypto-js";
 
 export async function fetchUserFavorite(token: SpotifyToken) {
   const options = {
